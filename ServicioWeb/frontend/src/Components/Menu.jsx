@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import CreateDirectory from './CreateDirectory';
 import ListDirectories from './ListDirectories';
 import IdDirectory from './IdDirectory';
+import UpdateDirectory from './UpdateDirectory'
 // Importa otros componentes de endpoints aquí
 
 const Menu = () => {
@@ -19,6 +20,8 @@ const Menu = () => {
                 return <ListDirectories />;
             case 'Search':
                 return <IdDirectory />
+            case 'Update':
+                return <UpdateDirectory />
       // Agrega otros casos para cada endpoint adicional
         default:
             return null;
@@ -33,6 +36,7 @@ const Menu = () => {
             <option value="Create">Crear Directorio</option>
             <option value="List">Ver Directorios</option>
             <option value="Search">Buscar Directorio</option>
+            <option value="Update">Actualizar Directorio</option>
             {/* Agrega otras opciones para cada endpoint adicional */}
         </select>
         {renderEndpointComponent()}
