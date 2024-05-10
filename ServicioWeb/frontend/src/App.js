@@ -1,15 +1,13 @@
 
 import React from 'react';
-import ListDirectories from './Components/ListDirectories';
-import CreateDirectory from './Components/CreateDirectory';
+import Menu from './Components/Menu';
 
 
 function App() {
   return (
     <div className="App">
-      
-      <ListDirectories />
-      <CreateDirectory />
+      <h1>API Puyua</h1>
+      <Menu />
       
     </div>
   );
