@@ -3,6 +3,7 @@ import CreateDirectory from './CreateDirectory';
 import ListDirectories from './ListDirectories';
 import IdDirectory from './IdDirectory';
 import UpdateDirectory from './UpdateDirectory'
+import DeleteDirectory from './DeleteDirectory'
 // Importa otros componentes de endpoints aquí
 
 const Menu = () => {
@@ -22,6 +23,8 @@ const Menu = () => {
                 return <IdDirectory />
             case 'Update':
                 return <UpdateDirectory />
+            case 'Delete':
+                return <DeleteDirectory />
       // Agrega otros casos para cada endpoint adicional
         default:
             return null;
@@ -37,6 +40,7 @@ const Menu = () => {
             <option value="List">Ver Directorios</option>
             <option value="Search">Buscar Directorio</option>
             <option value="Update">Actualizar Directorio</option>
+            <option value="Delete">Eliminar Directorio</option>
             {/* Agrega otras opciones para cada endpoint adicional */}
         </select>
         {renderEndpointComponent()}
