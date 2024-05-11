@@ -39,6 +39,9 @@ def list_directories():
 def create_directory(directory: DirectoryItem):
 
     connector = MongoDBConnector()
+    if (connector.read_Id(directory.id)):
+        raise HTTPException(status_code=409, detail="User already exist")
+
     connector.insert_Users(directory)
     return directory
 
