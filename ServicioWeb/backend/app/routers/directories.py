@@ -1,7 +1,9 @@
 from typing import List
 from fastapi import APIRouter, HTTPException
+from Services.MongoAtlas import MongoDBConnector
 from models import DirectoryItem
 from fastapi import Body
+
 # Crea un nuevo enrutador (router) para la ruta "/directories"
 # y le asigna la etiqueta "directories"
 router = APIRouter(
@@ -9,17 +11,31 @@ router = APIRouter(
     tags=["directories"],
 )
 
+
+
+
+directories = [
+   DirectoryItem(id=1, name="Directorio 1", path="/directorio1", created_at="2024-05-10 12:00:00", updated_at="2024-05-10 12:00:00",emails=["usuario1@ejemplo.com","usuario2@ejemplo.com.mx","usuario3@ejemplo.org","usuario4@ejemplo.net"]),
+   DirectoryItem(id=2, name="Directorio 2", path="/directorio2", created_at="2024-05-10 12:30:00", updated_at="2024-05-10 12:30:00",emails=["usuario5@ejemplo.com","usuario6@ejemplo.com.mx","usuario7@ejemplo.org","usuario8@ejemplo.net"]),
+   DirectoryItem(id=3, name="Directorio 3", path="/directorio3", created_at="2024-05-10 13:00:00", updated_at="2024-05-10 13:00:00",emails=["usuario9@ejemplo.com","usuario10@ejemplo.com.mx","usuario11@ejemplo.org","usuario12@ejemplo.net"]),
+]
+
+
+
 # Definición del endpoint GET /directories/
 # Devuelve la lista de todos los directorios
 @router.get("/")
 def list_directories():
-    return directories
+    connector = MongoDBConnector()
+    return connector.read_Users()
+
 
 # Definición del endpoint POST /directories/
 # Crea un nuevo directorio y lo agrega a la lista de directorios
 @router.post("/")
 def create_directory(directory: DirectoryItem):
-    directories.append(directory)
+    connector = MongoDBConnector()
+    connector.insert_Users(directory)
     return directory
 
 # Definición del endpoint GET /directories/{id}
@@ -27,9 +43,9 @@ def create_directory(directory: DirectoryItem):
 # Si no se encuentra, lanza una excepción HTTP 404
 @router.get("/{id}")
 def get_directory(id: int):
-    for directory in directories:
-        if directory.id == id:
-            return directory
+
+    connector = MongoDBConnector()
+    return connector.read_Id(id)
     raise HTTPException(status_code=404, detail="Directory not found")
 
 # Definición del endpoint PUT /directories/{id}
