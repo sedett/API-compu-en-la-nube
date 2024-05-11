@@ -9,13 +9,6 @@ router = APIRouter(
     tags=["directories"],
 )
 
-# Datos de ejemplo para los directorios, simulan una bd
-directories = [
-    DirectoryItem(id=1, name="Directorio 1", path="/directorio1", created_at="2024-05-10 12:00:00", updated_at="2024-05-10 12:00:00",emails=["usuario1@ejemplo.com","usuario2@ejemplo.com.mx","usuario3@ejemplo.org","usuario4@ejemplo.net"]),
-    DirectoryItem(id=2, name="Directorio 2", path="/directorio2", created_at="2024-05-10 12:30:00", updated_at="2024-05-10 12:30:00",emails=["usuario5@ejemplo.com","usuario6@ejemplo.com.mx","usuario7@ejemplo.org","usuario8@ejemplo.net"]),
-    DirectoryItem(id=3, name="Directorio 3", path="/directorio3", created_at="2024-05-10 13:00:00", updated_at="2024-05-10 13:00:00",emails=["usuario9@ejemplo.com","usuario10@ejemplo.com.mx","usuario11@ejemplo.org","usuario12@ejemplo.net"]),
-]
-
 # Definición del endpoint GET /directories/
 # Devuelve la lista de todos los directorios
 @router.get("/")
