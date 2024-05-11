@@ -3,6 +3,7 @@ from fastapi import APIRouter, HTTPException
 from Services.MongoAtlas import MongoDBConnector
 from models import DirectoryItem
 from fastapi import Body
+import json
 
 # Crea un nuevo enrutador (router) para la ruta "/directories"
 # y le asigna la etiqueta "directories"
@@ -22,42 +23,49 @@ directories = [
 
 
 
+
 # Definición del endpoint GET /directories/
-# Devuelve la lista de todos los directorios
+# Busca a todos los usuarios
 @router.get("/")
 def list_directories():
     connector = MongoDBConnector()
-    return connector.read_Users()
+    usuarios = connector.read_Users()
+    return usuarios
 
 
 # Definición del endpoint POST /directories/
 # Crea un nuevo directorio y lo agrega a la lista de directorios
 @router.post("/")
 def create_directory(directory: DirectoryItem):
+
     connector = MongoDBConnector()
     connector.insert_Users(directory)
     return directory
+
 
 # Definición del endpoint GET /directories/{id}
 # Obtiene un directorio específico por su ID
 # Si no se encuentra, lanza una excepción HTTP 404
 @router.get("/{id}")
 def get_directory(id: int):
-
     connector = MongoDBConnector()
-    return connector.read_Id(id)
+    usuario = connector.read_Id(id)
+    return usuario
     raise HTTPException(status_code=404, detail="Directory not found")
+
 
 # Definición del endpoint PUT /directories/{id}
 # Actualiza un directorio existente por su ID
 # Si no se encuentra, lanza una excepción HTTP 404
 @router.put("/{id}")
 def update_directory(id: int, directory: DirectoryItem):
-    for i, d in enumerate(directories):
-        if d.id == id:
-            directories[i] = directory
-            return directory
-    raise HTTPException(status_code=404, detail="Directory not found")
+    
+    connector = MongoDBConnector()
+    # Eliminar el objeto problemático
+    connector.delete_Id(id)
+    # Volver a subir el objeto corregido
+    connector.insert_Users(directory)  
+
 
 # Definición del endpoint PATCH /directories/{id}
 # Actualiza parcialmente un directorio existente por su ID
@@ -71,13 +79,14 @@ def patch_directory(id: int, directory: DirectoryItem = Body(..., embed=True)):
             return directories[i]
     raise HTTPException(status_code=404, detail="Directory not found")
 
+
 # Definición del endpoint DELETE /directories/{id}
 # Elimina un directorio existente por su ID
 # Si no se encuentra, lanza una excepción HTTP 404
 @router.delete("/{id}")
 def delete_directory(id: int):
-    for i, d in enumerate(directories):
-        if d.id == id:
-            del directories[i]
-            return {"message": "Directory deleted"}
+    connector = MongoDBConnector()
+    usuario = connector.delete_Id(id)
+    print(usuario)
+    return usuario
     raise HTTPException(status_code=404, detail="Directory not found")
