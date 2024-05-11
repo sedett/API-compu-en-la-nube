@@ -31,28 +31,9 @@ class MongoDBConnector:
     def read_Id(self, nombre):
         db = self.client['Compu_nube']
         collection = db['Users']
-        # Eliminar el registro que coincide con el ID
-        result = collection.delete_one({"id": id})
-
-        # Verificar si se eliminó correctamente
-        if result.deleted_count == 1:
-            return "Registro eliminado exitosamente."
-        else:
-            return "No se encontró ningún registro coincidente."
-
-
-    # Función para actualizar un registro por ID en la tabla Users   
-        #
-        def update_Id(self, id):
-            # Conectarse a la base de datos en MongoDB Atlas
-            db = self.client['Compu_nube']
-            collection = db['Users']
-
-            # Eliminar el registro que coincide con el ID
-            result = collection.delete_one({"id": id})
-
-            # Verificar si se eliminó correctamente
-            if result.deleted_count == 1:
-                return "Registro eliminado exitosamente."
-            else:
-                return "No se encontró ningún registro coincidente."
+        # Realizar la búsqueda del usuario por ID
+        usuarios = collection.find({'id': nombre})
+        print(usuarios)
+        # Imprimir los resultados
+        for usuario in usuarios:
+            return usuario
