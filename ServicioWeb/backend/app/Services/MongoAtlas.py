@@ -17,6 +17,7 @@ class MongoDBConnector:
         collection_name = "Users"
         db = self.client[database_name]
         collection = db[collection_name]
+        
         result = collection.insert_one(document.__dict__)
         return result.inserted_id
     
